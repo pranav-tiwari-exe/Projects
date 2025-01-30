@@ -1,0 +1,44 @@
+*{
+    font-family:monospace;
+}
+
+.container{
+    background: rgb(28, 33, 42);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.board{
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.board_row{
+    display: flex;
+}
+
+.square{
+    font-size:5rem;
+    height:100px;
+    width:100px;
+}
+
+.winnerMessage{
+    color: white;
+    font-size: 3vw;
+}
+
+.reset{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    color:white;
+    font-size: xx-large;
+    background: rgb(165, 0, 225);
+    border:none;
+    border-radius: 5px;
+    height: 50px;
+    width: 200px;
+}

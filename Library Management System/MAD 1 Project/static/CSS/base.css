@@ -1,0 +1,102 @@
+body{
+    height: 110% ;
+    background-attachment: fixed;
+    background:linear-gradient(90deg,#1B1B1B,#1B1B1B);
+    
+}
+
+.navbar-brand{
+    margin-left: 10px;
+}
+
+.footer {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #fffefe;
+    color: rgb(40, 39, 39);
+}
+
+.social-links{
+    margin-left: 50px;
+}
+
+#social-links{
+    margin-left: 20px;
+}
+
+.c_text{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#add_button{
+    align-items: center;
+}
+
+.card{
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.b_area{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.text-end{
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.btn{
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.heading{
+    color: #fffefe;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+.message{
+    text-align: center;
+    color: #f9292993;
+}
+.but_reg{
+    display: flex;
+}
+.extra{
+    height:100px;
+}
+
+.review{
+    margin: 10px;
+    margin-left: 20px;
+}
+#body-text{
+    font-size: 20px;
+}
+
+#user_book_distribution{
+    padding:10px;
+    height:450px;
+    width:600px;
+}
+.search{
+    display: flex;
+}
+.search-form{
+    text-align: right;
+    margin-right: 25px;
+}
+#search-bar {
+    width: 200px;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: 0;
+}

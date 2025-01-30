@@ -1,0 +1,23 @@
+{%extends 'base.html'%}
+{%block title%}Statistics{%endblock%}
+
+{%block nav_bar_content%}
+<li class="nav_item">
+    <a class="nav-link active" aria-current="page" href="{{url_for('stats_librarian')}}">Stats</a>
+</li>
+<li class="nav_item">
+    <a class="nav-link"  href="{{url_for('librarian_dashboard')}}">Sections</a>
+</li>
+<li class="nav_item">
+    <a class="nav-link" href="{{url_for('request_page')}}">Requests</a>
+</li>
+<li class="nav_item">
+    <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
+</li>
+{%endblock%}
+
+{%block content%}
+<h1 class="heading">Statistics</h1>
+<div class="card" id="user_book_distribution"><img src="data:image/png;base64,{{ plot_url }}" alt="Distribution of Books Among Users"></div>
+    
+{%endblock%}

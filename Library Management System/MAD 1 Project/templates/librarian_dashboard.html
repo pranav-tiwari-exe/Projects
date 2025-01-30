@@ -1,0 +1,77 @@
+{%extends 'base.html'%}
+{%block title%}Librarian Dashboard{%endblock%}
+
+{%block nav_bar_content%}
+<li class="nav_item">
+    <a class="nav-link active" aria-current="page" href="{{url_for('librarian_dashboard')}}">Sections</a>
+</li>
+<li class="nav_item">
+    <a class="nav-link" href="{{url_for('request_page')}}">Requests</a>
+</li>
+<li class="nav_item">
+    <a class="nav-link" href="{{url_for('stats_librarian')}}">Stats</a>
+</li>
+<li class="nav_item">
+    <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
+</li>
+{%endblock%}
+
+{%block content%}
+<div class="text-end">
+    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#add_section">
+        + Add Section
+    </button>
+</div>
+{% if not sections %}
+<div class="message">
+    <p>No Section Available,Try to make some using the +Add Section Button.</p>
+</div>
+{%else%}
+<div class="b_area">
+    {% for i in sections%}
+    <br>
+    <div class="card" style="width: 25rem;">
+        <div class="card-header">
+            <div class="card-title"><h5>{{i.section_name}}</h5></div>
+        </div>
+        <div class="card-body">
+            <p class="card-text">Date Created: {{i.date_created}}</p>
+            <p class="card-text">Description: {{i.description}}</p>
+            <a href="{{ url_for('librarian_dashboard_sections',section_name=i.section_name) }}" class="btn btn-dark">Visit
+                Section</a>
+        </div>
+    </div>
+    <br>
+    {%endfor%}
+</div>
+{%endif%}
+
+<div class="modal fade" id="add_section">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{url_for('librarian_dashboard')}}" method="POST" enctype="multipart/form-data"
+                id="section-form">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add_sectionLabel">Add a new section</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Section Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Section Name"
+                            required="1"><br>
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="description" name="description"
+                            placeholder="Enter Description" required="1"><br>
+                        <label class="form-label">Date Created: {{date}}</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" form="section-form" class="btn btn-dark">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{%endblock%}

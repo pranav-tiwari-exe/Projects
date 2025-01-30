@@ -1,0 +1,115 @@
+{%extends 'base.html'%}
+{%block title%}Section{%endblock%}
+
+{%block nav_bar_content%}
+<li class="nav_item">
+    <a class="nav-link active" aria-current="page" href="{{url_for('librarian_dashboard')}}">Sections</a>
+</li>
+<li class="nav_item">
+    <a class="nav-link" href="{{url_for('request_page')}}">Requests</a>
+</li>
+<li class="nav_item">
+    <a class="nav-link" href="{{url_for('stats_librarian')}}">Stats</a>
+</li>
+<li class="nav_item">
+    <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
+</li>
+{%endblock%}
+
+{%block content%}
+<div class="text-end">
+    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#add_books">
+        + Add Book
+    </button>
+    <a href="{{url_for('delete_section',section_name=section_name)}}" class="btn btn-dark">Delete Section</a>
+    <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edit_section">
+        Edit Section
+    </button>
+</div>
+{% if not books %}
+<div class="message">
+    <p>No Books!!! , Add a new one bu clicking on the +Add Book Button.</p>
+</div>
+{%else%}
+<div class="b_area">
+    {% for book in books %}
+    <div class="card" style="width: 14rem;">
+        <div class="book_cover">
+            <img src="{{ url_for('static', filename='Uploads/images/' + '/'.join(book.image.replace('\\', '/').split('/')[-1:])) }}"
+                class="card-img-top" alt="{{ url_for('static', filename='Uploads/images/' + '/'.join(book.image.replace('\\', '/').split('/')[-1:])) }}" height="300px" width="169px">
+        </div>
+        <div class="card-body">
+            <div class="card-title">
+                <h5>{{ book.name }}</h5><hr style="border-color: rgb(0, 0, 0); border-width: 2px;">
+            </div>
+            <p class="card-text">Author : {{ book.author }}<br>Average Rating: {{feedbacks.calculate_avg_rating(book.book_id)}}/5.0</p>
+            <p class="card-text"></p>
+            <a href="{{ url_for('book_edit', section_name=section_name, book_id=book.book_id) }}"
+                class="btn btn-dark">View</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{%endif%}
+<div class="modal fade" id="add_books">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{url_for('librarian_dashboard_sections',section_name=section_name)}}" method="POST"
+                enctype="multipart/form-data" id="section-form">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add_bookLabel">Add a new Book</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Book Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Book Name"
+                            required="1"><br>
+                        <label for="author" class="form-label">Author Name</label>
+                        <input type="text" class="form-control" id="author" name="author"
+                            placeholder="Enter Authors Name" required="1"><br>
+                        <label for="image" class="form-label"> Insert Image</label>
+                        <input type="file" class="form-control" id="image" name="image" placeholder="Input File" required="1"><br>
+                        <label for="Context" class="form-label"> Insert content PDF</label>
+                        <input type="file" class="form-control" id="content" name="content"
+                            placeholder="Input File" required="1"><br>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" form="section-form" class="btn btn-dark">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="edit_section">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{url_for('edit_sections',section_name=section_name)}}" method="POST"
+                enctype="multipart/form-data" id="section-form">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add_bookLabel">Edit Section</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        
+                        <label for="name" class="form-label">Section Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Section Name"
+                            required="1"><br>
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="description" name="description"
+                            placeholder="Enter Description" required="1"><br>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-dark">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{%endblock%}

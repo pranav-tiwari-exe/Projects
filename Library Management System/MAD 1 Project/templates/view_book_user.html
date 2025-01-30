@@ -1,0 +1,47 @@
+{%extends 'base.html'%}
+{%block title%}Book{%endblock%}
+
+{%block nav_bar_content%}
+<li class="nav_item">
+    <a class="nav-link active" aria-current="page" href="{{ url_for('user_dashboard', user_name=user_name) }}">My
+        Books</a>
+</li>
+<li class="nav_item">
+    <a class="nav-link" href="{{ url_for('book_store', user_name=user_name) }}">Books Store</a>
+</li>
+<li class="nav_item">
+    <a class="nav-link" href="#">Stats</a>
+</li>
+<li class="nav_item">
+    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+</li>
+{%endblock%}
+
+{%block content%}
+
+<div class="card mb-3" >
+    <div class="b_area">
+      <div class="col-md-4">
+        <img src="{{ url_for('static', filename='Uploads/images/' + '/'.join(book.image.replace('\\', '/').split('/')[-1:])) }}" class="img-fluid rounded-start" alt="" height="550px" width="310px">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title" style="font-size:50px;">Book Name : {{book.name}}</h5><hr style="border-color: rgb(0, 0, 0); border-width: 2px;">
+          <p class="card-text" id="body-text">Author : {{book.author}}<br>Average Rating: {{feedbacks.calculate_avg_rating(book.book_id)}}/5.0</p>
+          <a href="{{ url_for('view_content_user', user_name=user_name, book_id=book.book_id) }}" class="btn btn-dark">Open Book</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h1 class="heading">User Reviews</h1>
+{% set feedbacks=feedbacks.query.filter_by(book_id=book_id).all() %}
+{% for  feedback in feedbacks %}
+<div class="card">
+    <div class="review"><h5>{{feedback.username}} :</h5> 
+    {{feedback.feedback}} </div>
+    
+</div>
+{% endfor %}
+{%endblock%}

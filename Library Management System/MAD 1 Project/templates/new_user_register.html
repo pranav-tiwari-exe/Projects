@@ -1,0 +1,16 @@
+{%extends 'login_page_template.html'%}
+{% block title%}New User Registration{%endblock%}
+{%block login_head%}New User Registration{%endblock%}
+
+{%block switch%}
+<p class="input_head" id="switch"><a href="{{url_for('librarian_login')}}" class="btn btn-light" id="switch">Librarian Login</a></p>
+{%endblock%}
+
+{%block forms%}
+<form action="{{url_for('user_register')}}" method="POST">
+{%endblock%}
+
+{%block buttons%}
+<button type="submit" class="btn btn-dark"><p class="input_head">Submit</p></button>
+<a href="{{ url_for('user_login') }}" class="btn btn-dark"><p class="input_head">Login</p></a>
+{%endblock%}

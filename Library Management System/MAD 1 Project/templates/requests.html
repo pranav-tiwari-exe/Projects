@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}Librarian Dashboard{% endblock %}
+
+{% block nav_bar_content %}
+<li class="nav_item">
+    <a class="nav-link active" aria-current="page" href="{{url_for('librarian_dashboard')}}">Sections</a>
+</li>
+<li class="nav_item">
+    <a class="nav-link" href="{{url_for('stats_librarian')}}">Stats</a>
+</li>
+<li class="nav_item">
+    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+</li>
+{% endblock %}
+
+{% block content %}
+<h1 class="heading">Requests</h1>
+{% if Requested.query.filter(Requested.issued_at == None).count() == 0 %}
+<div class="message">
+    <p>No requests available.</p>
+</div>
+{% else %}
+{% for req in Requested.query.filter(Requested.issued_at == None).all() %}
+<div class="card">
+    <div class="b_area">
+        <p  class="card-title"3w>
+            <b>Book:&nbsp;</b> {{ Books.query.get(req.book_id).name }}&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+            <b>User: &nbsp;</b> {{ req.username }}&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+            <b>No. of Days:&nbsp; </b> {{ req.days_requested }}&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+        <form action="{{ url_for('approve_request', request_id=req.request_id) }}" method="POST">
+            <button type="submit" class="btn btn-dark">Approve Request</button>
+        </form>
+
+        <form action="{{ url_for('deny_request', request_id=req.request_id) }}" method="POST">
+            <button type="submit" class="btn btn-dark">Deny Request</button>
+        </form>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+
+<h1 class="heading">Approved</h1>
+{% if Requested.query.filter(Requested.issued_at != None).count() == 0 %}
+<div class="message">
+    <p>No requests approved.</p>
+</div>
+{% else %}
+{% for req in Requested.query.filter(Requested.issued_at != None).all() %}
+<div class="card">
+    <div class="b_area">
+        <p class="card-title">
+            <b>Book:&nbsp;</b> {{ Books.query.get(req.book_id).name }}&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+            <b>User: &nbsp;</b> {{ req.username }}&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+            <b>No. of Days:&nbsp; </b> {{ req.days_requested }}&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+        <form action="{{ url_for('deny_request', request_id=req.request_id) }}" method="POST"
+            style="margin-right: 0px;">
+            <button type="submit" class="btn btn-dark">Revoke Access</button>
+        </form>
+    </div>
+</div>
+
+{% endfor %}
+{% endif %}
+{% endblock %}

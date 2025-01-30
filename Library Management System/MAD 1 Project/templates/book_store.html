@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Book Store{% endblock %}
+{% block nav_bar_content %}
+<li class="nav_item">
+    <a class="nav-link active" aria-current="page" href="{{url_for('book_store',user_name=user_name)}}">Books Store</a>
+</li>
+<li class="nav_item">
+    <a class="nav-link" href="{{ url_for('user_dashboard', user_name=user_name) }}">My Books</a>
+</li>
+<li class="nav_item">
+    <a class="nav-link" href="#">Stats</a>
+</li>
+<li class="nav_item">
+    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+</li>
+{% endblock %}
+
+{% block content %}
+<h1 class="heading">Available Books</h1>
+
+<form class="search-form" right action="{{ url_for('book_store', user_name=user_name) }}" method="GET">
+    <div class="search mb-3">
+        <input type="text" class="form-control" id="search-bar" placeholder="Search for books..." name="search"
+            id="searchbar">
+        <button class="btn btn-outline-secondary" type="submit">Search</button>
+    </div>
+</form>
+{% if not books_not_in_request %}
+<div class="message">
+    <p>No Books Available.</p>
+</div>
+{%else%}
+<div class="b_area">
+    {% for book in books_not_in_request %}
+    <div class="card" style="width: 14rem;">
+        <div class="book_cover">
+            <img src="{{ url_for('static', filename='Uploads/images/' + '/'.join(book.image.replace('\\', '/').split('/')[-1:])) }}"
+                class="card-img-top" alt="Book Cover" height="300px" width="169px">
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">{{ book.name }}</h5>
+            <hr style="border-color: rgb(0, 0, 0); border-width: 2px;">
+            <p class="card-text">Author: {{ book.author }}<br>Average Rating:
+                {{feedback.calculate_avg_rating(book.book_id)}}/5.0<br>Section Name: {{book.section_name}}</p>
+            <button class="btn btn-dark" data-bs-toggle="modal"
+                data-bs-target="#request_book_{{ book.book_id }}">Request
+                Access</button>
+        </div>
+    </div>
+
+    <div class="modal fade" id="request_book_{{ book.book_id }}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ url_for('book_request', user_name=user_name, book_id=book.book_id) }}" method="POST"
+                    enctype="multipart/form-data" id="section-form">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="add_bookLabel">Request book</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Number of days</label>
+                            <input type="number" class="form-control" id="number_of_days" name="number_of_days"
+                                placeholder="Enter the number of days" required="1" min="1"><br>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-dark">Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}
